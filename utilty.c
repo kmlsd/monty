@@ -11,7 +11,7 @@
 char **strtok_line(char *line)
 {
 	int i = 0, wcount = 0, in = 0;
-	char **args = NULL;
+	char **ar;
 
 	while (line[i])
 	{
@@ -25,15 +25,15 @@ char **strtok_line(char *line)
 		i++;
 	}
 
-/**	args = malloc(sizeof(char *) * (wcount + 1));
-	if (!args)
-		return (NULL);*/
+	ar = malloc(sizeof(char *) * (wcount + 1));
+	if (!ar)
+		return (NULL);
 
 	i = 0;
-	while ((args[i] = strtok(i == 0 ? line : NULL, " \n\t")))
+	while ((ar[i] = strtok(i == 0 ? line : NULL, " \n\t")))
 		i++;
 
-	return (args);
+	return (ar);
 }
 
 /**

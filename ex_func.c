@@ -82,15 +82,15 @@ int call_monty_func(char **args, stack_t **stack, unsigned int line_nb)
 
 void  monty_ex(FILE *fp)
 {
-	char line[1024];
-	char **args;
+	char *line = NULL;
+	char **args = NULL;
 	unsigned int line_nb = 1;
 	
 	stack_t *stack = NULL;
 
 	/*fp = fopen(argv[1], "r");*/
-	
-	while (fgets(line, sizeof(line), fp) != NULL)
+/*	char **args = malloc((char *) * 1024);	*/
+	while (fgets(line, sizeof(fp), fp) != NULL)
 	{
 		args = strtok_line(line);
 		if (args[0] && call_monty_func(args, &stack, line_nb) == 1)
