@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+/**
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
+ *
+ * Return: 0 on success, 1 on er
+*/
+char ** strtok_line(char *line);
+int main(int argc, char **argv)
+{
+        int i = 0;
+	char *line = NULL;
+        char **ar;
+        size_t len = 0;
+        FILE *fp;
+
+        fp = fopen(argv  [1], "r");
+        if (argc < 2)
+        {
+                printf("plseas re run using \n");
+                exit (1);
+        }
+	printf("fp read step begin her\n");
+        while (getline(&line, &len, fp) != -1)
+       {
+/*                write (1, fp, sizeof(fp)); */
+		ar = strtok_line(line);
+	printf("here is after token%s\n", ar[i]);
+	}
+	free(line);
+	fclose(fp);
+	return (EXIT_SUCCESS);
+}
+/**
+ * strtok_line - handles and tokenizes the line read from file
+ *
+ * @line: the line to tokenize
+ *
+ * Return: tokens as an array of strings
+ */
+
+char **strtok_line(char *line)
+{
+	int i = 0;
+	char **args, *ars_token;
+	char *d = "' '$\t\n";
+	
+	args = malloc(sizeof(char *)* sizeof(line));
+	ars_token = strtok(line, d);
+
+	while(ars_token)
+	{
+		args[i] = ars_token;
+		ars_token = strtok(NULL, d);
+		printf("%s args of %d \n", args[i], i);
+		i++;
+		
+	}
+	return (args);
+
+}
+

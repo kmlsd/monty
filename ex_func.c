@@ -13,11 +13,37 @@ void free_stack(stack_t *stack)
 	while (stack != NULL)
 	{
 		next = stack->next;
-		stack = NULL;
+		free(stack);
 		stack = next;
 	}
 	
 }
+/**
+* read_input - read file input
+* @fp: file pointer
+* Return: void 
+*/
+void read_input(FILE *fp)
+{
+	unsigned int line_nb = 0;
+        char *line = NULL;
+        char **ar = NULL;
+        ssize_t read_file;
+        size_t len = 0;
+
+	while ((read_file = getline(&line, &len, fp)) > -1)
+	{
+		fprintf(stderr, "USAGE: monty file kamal  \n");
+                ar = strtok_line(line, line_nb);
+                line_nb++;
+
+        }
+        free(ar);
+	free_args(ar);
+	free(line);
+      
+}
+
 
 /**
  * call_monty_func - selects the correct function to call
@@ -70,41 +96,4 @@ int call_monty_func(char **args, stack_t **stack, unsigned int line_nb)
 	fprintf(stderr, "L%d: unknown instruction %s\n", line_nb, args[0]);
 	META.error = 1;
 	return (1);
-}
-
-/**
- * monty_ex - main interpreter loop
- *
- * @fp: file pointer to monty bytecode file
- *
- * Return: EXIT_SUCCESS if success, EXIT_FAILURE if failure
-*/
-
-void  monty_ex(FILE *fp)
-{
-	char *line = NULL;
-	char **args = NULL;
-	unsigned int line_nb = 1;
-	
-	stack_t *stack = NULL;
-
-	/*fp = fopen(argv[1], "r");*/
-/*	char **args = malloc((char *) * 1024);	*/
-	while (fgets(line, sizeof(fp), fp) != NULL)
-	{
-		args = strtok_line(line);
-		if (args[0] && call_monty_func(args, &stack, line_nb) == 1)
-		{
-			free_args(args);
-			free_stack(stack);
-			
-		}
-		free_args(args);
-		line_nb++;
-		putchar('\n');
-	
-	}
-	free_stack(stack);
-	
-
 }

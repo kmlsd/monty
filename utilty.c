@@ -7,35 +7,33 @@
  * Return: tokens as an array of strings
  */
 
-
-char **strtok_line(char *line)
+char **strtok_line(char *line, unsigned int line_nb)
 {
-	int i = 0, wcount = 0, in = 0;
-	char **ar;
+        int i = 0;
+        char **args, *ars_token;
+        char *d = "' '$\t\n";
+	stack_t *stack = NULL;
 
-	while (line[i])
+        args = malloc(sizeof(char *)* sizeof(line));
+        ars_token = strtok(line, d);
+
+	while(ars_token)
+        {
+	args[i] = malloc(sizeof(ars_token));
+	strcpy(args[i], ars_token);
+	i++;
+	ars_token = strtok(NULL, d);
+	
+
+        }
+	if (args[0] && call_monty_func(args, &stack, line_nb) == 1)
 	{
-		if (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
-			in = 0;
-		else if (in == 0)
-		{
-			in = 1;
-			wcount++;
-		}
-		i++;
+                free_args(args);
+                free_stack(stack);
 	}
+        return (args);
 
-	ar = malloc(sizeof(char *) * (wcount + 1));
-	if (!ar)
-		return (NULL);
-
-	i = 0;
-	while ((ar[i] = strtok(i == 0 ? line : NULL, " \n\t")))
-		i++;
-
-	return (ar);
-}
-
+}     
 /**
  * free_args - frees the argument tokens array
  *
@@ -49,10 +47,10 @@ void free_args(char **args)
 
 	while (args[i])
 	{
-		args[i] = NULL;
+		free(args[i]);
 		i++;
 	}
-	args = NULL;
+	free(args);
 }
 /**
  *_atoi - converts a string to an integer

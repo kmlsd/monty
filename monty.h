@@ -1,16 +1,15 @@
 #ifndef MONTY_H
 #define MONTY_H
-
-#include <stdlib.h>
-#include <stdio.h>
+#include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
 #define STACK 0
 #define QUEUE 1
-
+#define _GNU_SOURCE
 /**
  * struct meta_s - structure containing the error status and state of the stack
  * @error: the error value (0 if no, 1 if yes)
@@ -56,9 +55,9 @@ typedef struct instruction_s
 } instruction_t;
 
 meta_t META;
-
+ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 /* EXEC */
-void monty_ex(FILE *fp);
+void read_input(FILE *fp);
 int call_monty_func(char **args, stack_t **stack, unsigned int line_nb);
 void free_stack(stack_t *stack);
 /* OPCODES OF FUNCTION */
@@ -85,7 +84,7 @@ void _push(stack_t **stack, unsigned int line_nb, char *a_value);
 
 /* UTILS */
 
-char **strtok_line(char *line);
+char **strtok_line(char *line, unsigned int line_nb);
 void free_args(char **args);
 int _atoi(char *s);
 
